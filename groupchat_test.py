@@ -9,10 +9,12 @@ config_list = [
     "base_url": "https://api.groq.com/openai/v1/chat/completions",
     "api_type": "groq",
     "api_key": api_key,
+    "api_rate_limit": 100
   }
 ]
 
-llm_config = config_list[0]
+# llm_config = config_list[0]
+llm_config={"config_list": config_list}
 
 
 task = "Write a blogpost about the stock price performance of "\
