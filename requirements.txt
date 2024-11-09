@@ -1,2 +1,6 @@
 autogen
 groq
+langchain
+langchain_community
+pypdf
+rapidocr-onnxruntime
