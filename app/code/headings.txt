@@ -1,0 +1,36 @@
+Unknown:
+        <document_type 1>
+            <title>Resume 1</title>
+            <description>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </description>
+        </document_type 1>
+        
+
+Unknown:
+        <document_type 2>
+            <title>Cover Letter 1</title>
+            <description>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </description>
+        </document_type 2>
+        
+
+Unknown:
+        <document_type 3>
+            <title>Business Letter 1</title>
+            <description>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </description>
+        </document_type 3>
+        
+
+Unknown:
+        <document_type 4>
+            <title>Unknown</title>
+            <description>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </description>
+        </document_type 4>
+        
+
