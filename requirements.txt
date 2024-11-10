@@ -4,3 +4,4 @@ langchain
 langchain_community
 pypdf
 rapidocr-onnxruntime
+pymongo
