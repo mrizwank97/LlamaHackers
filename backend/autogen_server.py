@@ -11,7 +11,7 @@ from fastapi.responses import StreamingResponse
 from backend.workflows.doc_verification_workflow import DocumentVerificationWorkflow
 from backend.data_model import Input, Output, StrOutput
 from datetime import date
-from backend.prompts import rp_prompt, passport_prompt, summarizer_prompt
+from backend.prompts import rp_prompt, passport_prompt, health_insurance_prompt
 
 empty_usage = {
     "prompt_tokens": 0,
@@ -24,7 +24,6 @@ def serve_autogen(inp: Input):
     model_dump = inp.model_dump()
     model_messages = model_dump["messages"]
 
-
     documents = [
         {
             "name":"Residence Permit",
@@ -36,17 +35,13 @@ def serve_autogen(inp: Input):
             "verifier_type" : "Prompt_Verifier",
             "prompt": passport_prompt.format(date=date.today())
         },
-        {   "name": "Enrollment Letter",
+        {   "name": "Education Registration Certificate",
             "verifier_type" : "Template_Verifier",
-            "template_name": "Template_enrollement.pdf"
+            "template_name": 'education_registration_certificate'
         },
         {   "name": "Health Insuarance",
             "verifier_type" : "Prompt_Verifier",
-            "prompt":   f'''
-                    Your role is a Health Insuarance Verifier. Your task is to check the contents of a dictionary/dictionaries that contains various document types as keys and their content as values.
-                    If a key named "Health Insuarance" is present in the dictionary, examine its content to verify whether the document is valid beyond today’s date which is {date.today()}. 
-                    Provide a precise response indicating whether the document is valid or expired, based on the expiration information in the summary content. DO NOT use any code to verify the content.
-                    '''
+            "prompt":  health_insurance_prompt.format(date=date.today())
         }
     ]
     ## Generate Workflow

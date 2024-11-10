@@ -158,11 +158,14 @@ class DocumentVerificationWorkflow:
         doc_classes = [doc["name"] for doc in documents]
         doc_classes.append('Other')
 
-        parsed_doc_classifier = agent_generator.getDefaultAgent("Doc Classifier", classification_prompt.format(doc_classes = doc_classes), 
+        doc_classification_response = { category : "<content>" for category in doc_classes }
+        print(doc_classification_response)
+
+        parsed_doc_classifier = agent_generator.getDefaultAgent("Doc Classifier", classification_prompt.format(doc_classes = doc_classes, response= doc_classification_response), 
                                                         "A classifier that classifies the text that has been parsed")
 
         chief_verifier = agent_generator.getDefaultAgent("Chief Verifier", "You are the chief verifier."
-                    "You collect the information from the Doc Classifier and pass the information to your team.",
+                   "You collect the information from the Doc Classifier and pass the information to your team.",
                     "You are the chief verifier")
 
 
@@ -208,11 +211,11 @@ class DocumentVerificationWorkflow:
 
                 case "Template_Verifier":
 
-                    system_message = verifier_util.verify_system_doc_sysmessage(doc['name'], doc['template_name'])
+                    system_message = verifier_util.verify_wtemplate_sysmessage(doc['name'])
                 
                     verifier = agent_generator.getDefaultAgent(doc["name"]+" Verifier", system_message)
 
-                    template_retrieval_caller = agent_generator.getTemplateRetrieverAgent(tool_executor)
+                    template_retrieval_caller = agent_generator.getTemplateRetrieverAgent(tool_executor, doc['template_name'])
 
                     groupchat2 = autogen.GroupChat(
                         agents=[chief_verifier, template_retrieval_caller, tool_executor, verifier],

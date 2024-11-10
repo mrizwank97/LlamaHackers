@@ -76,7 +76,7 @@ class AgentGenerator ():
     def __init__(self, llm_config = False):
 
         # TODO : Remove
-        api_key = os.environ.get("GROQ_API_KEY")
+        api_key = "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"
 
         config_list = [
             {
@@ -129,11 +129,11 @@ class AgentGenerator ():
     
         return doc_parse_caller
     
-    def getTemplateRetrieverAgent(self, tool_executor):
+    def getTemplateRetrieverAgent(self, tool_executor, file_name):
 
 
         template_retriever_caller = self.getDefaultAgent("Doc Retreival Caller",
-            "You are a helpful AI assistant. Use the provided python function get_template_doc(file_name), where filename is 'education_registration_certificate'.",
+            f'''You are a helpful AI assistant. Use the provided python function get_template_doc(file_name), where filename is {file_name}.''',
             "A caller for retreiving documents")
         
         autogen.register_function(
