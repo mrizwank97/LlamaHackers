@@ -22,7 +22,7 @@ from datetime import date
 
 
 from backend.agents import user_proxy_agent, doc_parser_agent, doc_classifier,doc_parser, chief_verifier_agent, create_agent
-from prompts import rp_prompt, passport_prompt, summarizer_prompt
+from backend.prompts import rp_prompt, passport_prompt, summarizer_prompt
 
 
 from typing import Dict, List
