@@ -37,3 +37,6 @@ class Output(BaseModel):
     model: str
     choices: List
     usage: dict
+
+class StrOutput(BaseModel):
+    msg:str

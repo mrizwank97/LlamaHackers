@@ -7,8 +7,11 @@ from threading import Thread
 from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
-from autogen_workflow import AutogenWorkflow
-from data_model import Input, Output
+# from backend.agent_workflow import AutogenWorkflow
+from backend.workflows.doc_verification_workflow import DocumentVerificationWorkflow
+from backend.data_model import Input, Output, StrOutput
+from datetime import date
+from backend.prompts import rp_prompt, passport_prompt, health_insurance_prompt
 
 empty_usage = {
     "prompt_tokens": 0,
@@ -20,7 +23,29 @@ empty_usage = {
 def serve_autogen(inp: Input):
     model_dump = inp.model_dump()
     model_messages = model_dump["messages"]
-    workflow = AutogenWorkflow()
+
+    documents = [
+        {
+            "name":"Residence Permit",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt":  rp_prompt.format(date=date.today())
+        }, 
+        {
+            "name":"Passport",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt": passport_prompt.format(date=date.today())
+        },
+        {   "name": "Education Registration Certificate",
+            "verifier_type" : "Template_Verifier",
+            "template_name": 'education_registration_certificate'
+        },
+        {   "name": "Health Insuarance",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt":  health_insurance_prompt.format(date=date.today())
+        }
+    ]
+    ## Generate Workflow
+    workflow = DocumentVerificationWorkflow(documents)
 
     if inp.stream:
         queue = Queue()
@@ -28,7 +53,7 @@ def serve_autogen(inp: Input):
         Thread(
             target=workflow.run,
             args=(
-                model_messages[-1],
+                inp.messages.content,
                 inp.stream,
             ),
         ).start()
@@ -66,14 +91,8 @@ def return_streaming_response(inp: Input, queue: Queue):
 def return_non_streaming_response(chat_results, model):
     try:
         if chat_results:
-            return Output(
-                id=str(chat_results.chat_id),
-                choices=[
-                    {"index": i, "message": msg, "finish_reason": "stop"}
-                    for i, msg in enumerate(chat_results.chat_history)
-                ],
-                usage=chat_results.cost,
-                model=model,
+            return StrOutput(
+                msg=str(chat_results.chat_history[-1])
             ).model_dump()
         else:
             return Output(
