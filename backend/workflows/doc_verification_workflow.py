@@ -287,6 +287,4 @@ class DocumentVerificationWorkflow:
         )
         if stream:
             self.queue.put("[DONE]")
-        # print(chat_history.chat_history[-1]['content'])
-        # currently this returns the entire chat history, but you may want to return only the last message or a summary
         return chat_history
