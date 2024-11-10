@@ -53,7 +53,7 @@ def serve_autogen(inp: Input):
         Thread(
             target=workflow.run,
             args=(
-                model_messages[-1],
+                inp.messages.content,
                 inp.stream,
             ),
         ).start()

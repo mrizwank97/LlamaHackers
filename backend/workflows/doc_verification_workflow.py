@@ -282,7 +282,8 @@ class DocumentVerificationWorkflow:
 
         chat_history = self.user_proxy.initiate_chat(
             self.manager,
-            message="I have some pdf documents in the directory './data/user/', and I would like to know what type of documents they are (in terms of classification)",
+            message = message
+            # message="I have some pdf documents in the directory './data/user/', and I would like to know what type of documents they are (in terms of classification)",
         )
         if stream:
             self.queue.put("[DONE]")
