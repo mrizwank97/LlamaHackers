@@ -3,8 +3,8 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 from starlette.responses import RedirectResponse
 
-from autogen_server import serve_autogen
-from data_model import Input, ModelInformation
+from backend.autogen_server import serve_autogen
+from backend.data_model import Input, ModelInformation
 
 load_dotenv()
 
@@ -55,6 +55,7 @@ async def get_models():
 
 @app.post(prefix + "/chat/completions")
 async def route_query(model_input: Input):
+
     model_services = {
         model_info.name: serve_autogen,
     }

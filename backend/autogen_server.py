@@ -7,8 +7,11 @@ from threading import Thread
 from fastapi import HTTPException
 from fastapi.responses import StreamingResponse
 
-from autogen_workflow import AutogenWorkflow
-from data_model import Input, Output
+# from backend.agent_workflow import AutogenWorkflow
+from backend.workflows.doc_verification_workflow import DocumentVerificationWorkflow
+from backend.data_model import Input, Output, StrOutput
+from datetime import date
+from backend.prompts import rp_prompt, passport_prompt, summarizer_prompt
 
 empty_usage = {
     "prompt_tokens": 0,
@@ -20,7 +23,34 @@ empty_usage = {
 def serve_autogen(inp: Input):
     model_dump = inp.model_dump()
     model_messages = model_dump["messages"]
-    workflow = AutogenWorkflow()
+
+
+    documents = [
+        {
+            "name":"Residence Permit",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt":  rp_prompt.format(date=date.today())
+        }, 
+        {
+            "name":"Passport",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt": passport_prompt.format(date=date.today())
+        },
+        {   "name": "Enrollment Letter",
+            "verifier_type" : "Template_Verifier",
+            "template_name": "Template_enrollement.pdf"
+        },
+        {   "name": "Health Insuarance",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt":   f'''
+                    Your role is a Health Insuarance Verifier. Your task is to check the contents of a dictionary/dictionaries that contains various document types as keys and their content as values.
+                    If a key named "Health Insuarance" is present in the dictionary, examine its content to verify whether the document is valid beyond today’s date which is {date.today()}. 
+                    Provide a precise response indicating whether the document is valid or expired, based on the expiration information in the summary content. DO NOT use any code to verify the content.
+                    '''
+        }
+    ]
+    ## Generate Workflow
+    workflow = DocumentVerificationWorkflow(documents)
 
     if inp.stream:
         queue = Queue()
@@ -66,14 +96,8 @@ def return_streaming_response(inp: Input, queue: Queue):
 def return_non_streaming_response(chat_results, model):
     try:
         if chat_results:
-            return Output(
-                id=str(chat_results.chat_id),
-                choices=[
-                    {"index": i, "message": msg, "finish_reason": "stop"}
-                    for i, msg in enumerate(chat_results.chat_history)
-                ],
-                usage=chat_results.cost,
-                model=model,
+            return StrOutput(
+                msg=str(chat_results.chat_history[-1])
             ).model_dump()
         else:
             return Output(
