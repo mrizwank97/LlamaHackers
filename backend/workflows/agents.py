@@ -76,7 +76,7 @@ class AgentGenerator ():
     def __init__(self, llm_config = False):
 
         # TODO : Remove
-        api_key = "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"
+        api_key = os.environ.get("GROQ_API_KEY")
 
         config_list = [
             {
