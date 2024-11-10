@@ -3,6 +3,7 @@
 /venv
 app/.cache/
 /data
+/templates
 __pycache__/config.cpython-310.pyc
 __pycache__/embedding_functions.cpython-310.pyc
 __pycache__/minddb.cpython-310.pyc
