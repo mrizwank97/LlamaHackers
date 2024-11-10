@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  mindsdb:
-    image: mindsdb/mindsdb
-    container_name: mindsdb_container
-    ports:
-      - "47334:47334"
-      - "47335:47335"
-    volumes:
-      - ./persistent_data/mindsdb_data:/mnt/data  # Persistent storage for MindsDB
+  # mindsdb:
+  #   image: mindsdb/mindsdb
+  #   container_name: mindsdb_container
+  #   ports:
+  #     - "47334:47334"
+  #     - "47335:47335"
+  #   volumes:
+  #     - ./persistent_data/mindsdb_data:/mnt/data  # Persistent storage for MindsDB
 
   chromadb:
     image: chromadb/chroma:0.5.17
@@ -20,26 +20,38 @@ services:
       - CHROMA_HOST=0.0.0.0
       - CHROMA_PORT=8000
     volumes:
-      - ./chroma_db:/chroma/chroma
+      - ./persistent_data/chroma_db:/chroma/chroma
   # version: '3.8'
 
-# services:
-  ollama:
-    image: ollama/ollama:0.3.14
-    ports:
-      - 11434:11434
-    volumes:
-      - .:/code
-      - ./ollama/ollama:/root/.ollama
-      - ./start_ollama.sh:/start_ollama.sh
-      - ./config.yml:/config.yml
-    container_name: ollama
-    pull_policy: always
-    tty: true
-    restart: always
+# # services:
+#   ollama:
+#     image: ollama/ollama:0.3.14
+#     ports:
+#       - 11434:11434
+#     volumes:
+#       - .:/code
+#       - ./ollama/ollama:/root/.ollama
+#       - ./start_ollama.sh:/start_ollama.sh
+#       - ./config.yml:/config.yml
+#     container_name: ollama
+#     pull_policy: always
+#     tty: true
+#     restart: always
+#     environment:
+#       - OLLAMA_KEEP_ALIVE=24h
+#       - OLLAMA_HOST=0.0.0.0
+#     # networks:
+#     #   - llm-rag-docker
+#     entrypoint: ["/usr/bin/bash", "/start_ollama.sh"]
+  
+  openwebui:
+    image: pacific31/openwebui:1.0
+    container_name: open-webui
     environment:
-      - OLLAMA_KEEP_ALIVE=24h
-      - OLLAMA_HOST=0.0.0.0
-    # networks:
-    #   - llm-rag-docker
-    entrypoint: ["/usr/bin/bash", "/start_ollama.sh"]
+      - GROQ_API_KEY=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
+    volumes:
+      - ./open-webui:/app/backend/data
+      - common_user_files:/app/backend/data/uploads
+    ports:
+      - "3000:8080"
+    restart: always
