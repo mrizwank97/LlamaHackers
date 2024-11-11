@@ -1,1 +1,4 @@
-LLamaHackers
+# SwiftPermit
+
+SwiftPermit is an AI-driven application that revolutionizes the residence permit renewal process by streamlining interactions between applicants and processing officers. With an intelligent agent supported by Retrieval-Augmented Generation (RAG) technology, applicants receive clear guidance on document requirements and can submit all necessary materials directly through the app. SwiftPermit's multi-agent framework validates submitted documents in the background, ensuring compliance and authenticity before passing qualified applications to officers. This setup allows officers to focus on final checks, reducing their workload and significantly accelerating processing times. Should any documents fail verification, feedback is sent directly to the applicant, minimizing unnecessary reviews for officers. SwiftPermit enhances the application process for both applicants and administrators, making renewals more efficient and less time-consuming.
+

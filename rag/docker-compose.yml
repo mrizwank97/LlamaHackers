@@ -1,14 +1,14 @@
 version: '3.8'
 
 services:
-  # mindsdb:
-  #   image: mindsdb/mindsdb
-  #   container_name: mindsdb_container
-  #   ports:
-  #     - "47334:47334"
-  #     - "47335:47335"
-  #   volumes:
-  #     - ./persistent_data/mindsdb_data:/mnt/data  # Persistent storage for MindsDB
+  mindsdb:
+    image: mindsdb/mindsdb
+    container_name: mindsdb_container
+    ports:
+      - "47334:47334"
+      - "47335:47335"
+    volumes:
+      - ./persistent_data/mindsdb_data:/mnt/data  # Persistent storage for MindsDB
 
   chromadb:
     image: chromadb/chroma:0.5.17
@@ -50,8 +50,20 @@ services:
     environment:
       - GROQ_API_KEY=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
     volumes:
-      - ./open-webui:/app/backend/data
-      - common_user_files:/app/backend/data/uploads
+      # - ./open-webui:/app/backend/data
+      - ./common_user_files:/app/backend/data/uploads
+      - ./backend:/backend
     ports:
       - "3000:8080"
     restart: always
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db/mongodb:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
