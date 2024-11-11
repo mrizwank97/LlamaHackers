@@ -5,9 +5,16 @@
 
 **Tech Stack Used:** LLama3.2, AutoGen, MindsDB, OpenWebUI, FastAPI, ChromaDB, LangChain, MongoDB
 
-Snippets of the UI:
-![UI Start](ui_start.png)
-![UI End](ui_end.png)
+**System Overview**
+
+![System Overview](images/overall_system.png)
+
+**Snippets of the UI:**
+
+Start Phase
+![UI Start](images/ui_start.png)
+End Phase
+![UI End](images/ui_end.png)
 
 
 The guide below provides step-by-step instructions to set up and run the project.
@@ -67,3 +74,11 @@ After completing the setup, you can start interacting with the `belgpt` function
 ---
 
 ### Enjoy experimenting with the `belgpt` model! 🎉
+
+---
+## Additional Details: Multi-Agent Framework
+---
+
+![Multi-Agent Framework](images/multi_agent_framework.png)
+
+---

@@ -13,3 +13,8 @@ __pycache__/minddb.cpython-310.pyc
 backend/.cache
 backend/__pycache__
 backend/utils/__pycache__
+/app/resident_permit_crew.py
+/app/test.ipynb
+/app/test.py
+/rag/data/db/mongodb/*
+
