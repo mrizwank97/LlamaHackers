@@ -11,7 +11,7 @@ from fastapi.responses import StreamingResponse
 from backend.workflows.doc_verification_workflow import DocumentVerificationWorkflow
 from backend.data_model import Input, Output, StrOutput
 from datetime import date
-from backend.prompts import rp_prompt, passport_prompt, health_insurance_prompt
+from backend.prompts import exp_doc_prompt, ps_prompt
 
 empty_usage = {
     "prompt_tokens": 0,
@@ -28,12 +28,12 @@ def serve_autogen(inp: Input):
         {
             "name":"Residence Permit",
             "verifier_type" : "Prompt_Verifier",
-            "prompt":  rp_prompt.format(date=date.today())
+            "prompt":  exp_doc_prompt.format(date=date.today(), doc_name= "Residence Permit")
         }, 
         {
             "name":"Passport",
             "verifier_type" : "Prompt_Verifier",
-            "prompt": passport_prompt.format(date=date.today())
+            "prompt": exp_doc_prompt.format(date=date.today(), doc_name= "Passport")
         },
         {   "name": "Education Registration Certificate",
             "verifier_type" : "Template_Verifier",
@@ -41,7 +41,11 @@ def serve_autogen(inp: Input):
         },
         {   "name": "Health Insuarance",
             "verifier_type" : "Prompt_Verifier",
-            "prompt":  health_insurance_prompt.format(date=date.today())
+            "prompt":  exp_doc_prompt.format(date=date.today(), doc_name= "Health Insurance")
+        }        ,
+        {   "name": "Proof of Subsistence",
+            "verifier_type" : "Prompt_Verifier",
+            "prompt":  ps_prompt.format(doc_name="Proof of Subsistence", amount= "803")
         }
     ]
     ## Generate Workflow

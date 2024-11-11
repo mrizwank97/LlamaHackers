@@ -1,6 +1,7 @@
 from langchain_community.document_loaders import PyPDFDirectoryLoader
+import backend.utils.common as common
 
-def parse_pdfs(directory:str ="../data/user/") -> dict:
+def parse_pdfs(directory:str = common.user_data_folder) -> dict:
     parsed_data = {}
     loader = PyPDFDirectoryLoader(directory, extract_images=True)
     documents = loader.load()
